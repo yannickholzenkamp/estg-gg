@@ -71,7 +71,7 @@ paths:
       parameters:
       - name: "lohn"
         in: "query"
-        description: "Bruttojahreslohn"
+        description: "Bruttomonatslohn (1/13 Jahreslohn, CHF)"
         required: true
         type: "number"
       - name: "progVorb"

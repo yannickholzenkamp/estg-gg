@@ -25,8 +25,16 @@ public class RestEndpoint {
     private static final String PARAM_LOHN = "lohn";
     private static final String PARAM_PROGVORB = "progVorb";
     private static final String PARAM_WECHSELKURS = "wechselkurs";
+    private static final String PARAM_ABZGCHF = "abzgChf";
 
     private static final Configuration configuration = new Configuration2018();
+
+    @GET
+    @Path("/test")
+    @Interceptors(ApiInterceptor.class)
+    public String test() {
+        return "API OK - Version 1.0.0";
+    }
 
     @GET
     @Path("/simple")
