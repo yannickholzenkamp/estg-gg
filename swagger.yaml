@@ -1,0 +1,124 @@
+swagger: "2.0"
+info:
+  description: "API um Steuerdaten für einen GG-Spezialfall zu berechnen. Keine Haftung für die Richtigkeit der Daten."
+  version: "1.0.0"
+  title: "EStGGG API"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+host: "example.com"
+basePath: "/estggg/api/v1"
+tags:
+- name: "calc"
+  description: "Berechnungen"
+paths:
+  /simple:
+    get:
+      tags:
+      - "calc"
+      summary: "Steuerdaten anhand des Jahreslohns berechnen."
+      operationId: "simple"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "lohn"
+        in: "query"
+        description: "Bruttojahreslohn"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Result"
+  /complex:
+    get:
+      tags:
+      - "calc"
+      summary: "Steuerdaten anhand verschiedener Faktoren berechnen."
+      operationId: "complex"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "lohn"
+        in: "query"
+        description: "Bruttojahreslohn"
+        required: true
+        type: "number"
+      - name: "progVorb"
+        in: "query"
+        description: "Progressionsvorbehalt"
+        required: true
+        type: "number"
+      - name: "wechselkurs"
+        in: "query"
+        description: "Wechselkurs 1 EUR = x CHF"
+        required: false
+        type: "number"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Result"
+  /month:
+    get:
+      tags:
+      - "calc"
+      summary: "Monatsdaten berechnen."
+      operationId: "magic"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "lohn"
+        in: "query"
+        description: "Bruttojahreslohn"
+        required: true
+        type: "number"
+      - name: "progVorb"
+        in: "query"
+        description: "Progressionsvorbehalt"
+        required: true
+        type: "number"
+      - name: "abzgChf"
+        in: "query"
+        description: "Abzuege in CHF (inkl. QSt)"
+        required: true
+        type: "number"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/MonthResult"
+definitions:
+  Result:
+    type: "object"
+    properties:
+      wechselkurs:
+        type: "number"
+      quellenSteuer:
+        type: "number"
+      eSt:
+        type: "number"
+      belastungDe:
+        type: "number"
+      soli:
+        type: "number"
+      vorauszahlungQ:
+        type: "number"
+      vorauszahlungM:
+        type: "number"
+  MonthResult:
+    type: "object"
+    properties:
+      wechselkurs:
+        type: "number"
+      ueberweisung:
+        type: "number"
+      eSt:
+        type: "number"
+      soli:
+        type: "number"
+      vorauszahlung:
+        type: "number"
+      netto:
+        type: "number"

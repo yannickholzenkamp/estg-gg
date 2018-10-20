@@ -1,4 +1,4 @@
-package me.holzenkamp.estggg.configuration;
+package me.holzenkamp.estggg.business.configuration;
 
 public interface Configuration {
 
@@ -9,5 +9,9 @@ public interface Configuration {
     Double getSoliAnteil();
 
     Double getQuellensteuer_CH();
+
+    Double getSoli_Nullzone_bis();
+
+    Double getSoli_Gleitzone_bis();
 
 }

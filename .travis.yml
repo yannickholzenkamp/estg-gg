@@ -1,0 +1,11 @@
+language: java
+
+addons:
+  apt:
+    packages:
+    - sshpass
+
+after_success:
+- export SSHPASS=$PASSWORD
+- sshpass -e scp -o stricthostkeychecking=no -P $PORT target/estggg.war $USER@$PUBLIC_URL:$DEPLOY_PATH
+- sshpass -e ssh -o stricthostkeychecking=no -p $PORT $USER@$PUBLIC_URL "$DEPLOY_PATH/deploy.sh"

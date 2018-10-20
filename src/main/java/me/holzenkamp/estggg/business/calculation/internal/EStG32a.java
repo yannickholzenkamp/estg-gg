@@ -1,8 +1,8 @@
-package me.holzenkamp.estggg.calculation;
+package me.holzenkamp.estggg.business.calculation.internal;
 
-import me.holzenkamp.estggg.configuration.Configuration;
+import me.holzenkamp.estggg.business.configuration.Configuration;
 
-public class EStG32 {
+public class EStG32a {
 
     private Configuration configuration;
 
@@ -12,9 +12,8 @@ public class EStG32 {
     private Double z;
     private Double ESt;
     private Double EStPercent;
-    private Double Soli;
 
-    public EStG32(Double zVE, Configuration configuration) {
+    public EStG32a(Double zVE, Configuration configuration) {
         this.configuration = configuration;
         this.zVE = zVE;
         calcBaseValues();
@@ -36,6 +35,7 @@ public class EStG32 {
     }
 
     public void calculate() {
+        // TODO do not hardcode these values
         if (isAmountBetween(0.0, configuration.getGrundfreibetrag_DE(), zVE)) {
             ESt = calcFirstStage();
         } else if (isAmountBetween(9001.0, 13996.0, zVE)) {
@@ -48,8 +48,7 @@ public class EStG32 {
             ESt = calcFifthStage();
         }
         ESt = Math.floor(ESt);
-        EStPercent = (ESt / zVE) * 100.0;
-        Soli = Math.floor(ESt * configuration.getSoliAnteil());
+        EStPercent = (ESt / zVE);
     }
 
     private Double calcFirstStage() {
@@ -92,7 +91,7 @@ public class EStG32 {
     }
 
     private boolean isYLevel() {
-        return zVE > configuration.getZLevel_DE();
+        return zVE > configuration.getGrundfreibetrag_DE();
     }
 
     private boolean isZLevel() {
@@ -105,10 +104,6 @@ public class EStG32 {
 
     public Double getEStPercent() {
         return EStPercent;
-    }
-
-    public Double getSoli() {
-        return Soli;
     }
 
 }
