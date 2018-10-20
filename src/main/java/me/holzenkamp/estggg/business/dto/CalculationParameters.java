@@ -1,8 +1,8 @@
 package me.holzenkamp.estggg.business.dto;
 
-public class CalculationParameters {
+import java.util.Objects;
 
-    // TODO fix according to swagger definition
+public class CalculationParameters {
 
     // Required
     // Lohn (Jahr, Brutto, CHF)
@@ -38,6 +38,21 @@ public class CalculationParameters {
 
     public void setWechselkurs(Double wechselkurs) {
         this.wechselkurs = wechselkurs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CalculationParameters that = (CalculationParameters) o;
+        return Objects.equals(lohn, that.lohn) &&
+                Objects.equals(progressionsVorbehalt, that.progressionsVorbehalt) &&
+                Objects.equals(wechselkurs, that.wechselkurs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lohn, progressionsVorbehalt, wechselkurs);
     }
 
     @Override

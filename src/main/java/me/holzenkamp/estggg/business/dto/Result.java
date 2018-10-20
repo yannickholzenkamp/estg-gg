@@ -1,6 +1,8 @@
 package me.holzenkamp.estggg.business.dto;
 
-public class CalculationResult {
+import java.util.Objects;
+
+public class Result {
 
     // TODO fix according to swagger definition
 
@@ -83,7 +85,7 @@ public class CalculationResult {
 
     @Override
     public String toString() {
-        return "CalculationResult{" +
+        return "Result{" +
                 "wechselkurs=" + wechselkurs +
                 ", quellensteuer=" + quellensteuer +
                 ", eSt=" + eSt +
@@ -92,5 +94,24 @@ public class CalculationResult {
                 ", vorauszahlungQ=" + vorauszahlungQ +
                 ", vorauszahlungM=" + vorauszahlungM +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Result result = (Result) o;
+        return Objects.equals(wechselkurs, result.wechselkurs) &&
+                Objects.equals(quellensteuer, result.quellensteuer) &&
+                Objects.equals(eSt, result.eSt) &&
+                Objects.equals(belastungDe, result.belastungDe) &&
+                Objects.equals(soli, result.soli) &&
+                Objects.equals(vorauszahlungQ, result.vorauszahlungQ) &&
+                Objects.equals(vorauszahlungM, result.vorauszahlungM);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(wechselkurs, quellensteuer, eSt, belastungDe, soli, vorauszahlungQ, vorauszahlungM);
     }
 }

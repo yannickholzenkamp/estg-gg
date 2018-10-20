@@ -4,19 +4,18 @@ import me.holzenkamp.estggg.business.calculation.internal.EStG32a;
 import me.holzenkamp.estggg.business.calculation.internal.Quellensteuer;
 import me.holzenkamp.estggg.business.calculation.internal.Soli;
 import me.holzenkamp.estggg.business.dto.CalculationParameters;
-import me.holzenkamp.estggg.business.dto.CalculationResult;
+import me.holzenkamp.estggg.business.dto.Result;
 import me.holzenkamp.estggg.business.configuration.Configuration;
 import me.holzenkamp.estggg.data.currency.CurrencyService;
 import me.holzenkamp.estggg.util.NumberUtil;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import static me.holzenkamp.estggg.util.NumberUtil.formatDeFin;
 
 public class Calculator {
 
-    public static CalculationResult calculate(CalculationParameters parameters, Configuration configuration) throws IOException {
+    public static Result calculate(CalculationParameters parameters, Configuration configuration) throws IOException {
 
         // Wechselkurs 1 EUR = x CHF laden (aktueller Kurs)
         Double eurToChf = parameters.getWechselkurs() == null ? CurrencyService.eurToChf() : parameters.getWechselkurs();
@@ -43,16 +42,16 @@ public class Calculator {
         Double vorausZahlungM = summeZahlungenDe/13;
 
         // Berechnungsresultate verpacken
-        CalculationResult calculationResult = new CalculationResult();
-        calculationResult.setWechselkurs(eurToChf);
-        calculationResult.setQuellensteuer(NumberUtil.formatNumPositive(quellensteuer));
-        calculationResult.seteSt(formatDeFin(eStAbzglQuellensteuer));
-        calculationResult.setBelastungDe(steuersatz);
-        calculationResult.setSoli(soli);
-        calculationResult.setVorauszahlungQ(formatDeFin(vorausZahlungQ));
-        calculationResult.setVorauszahlungM(formatDeFin(vorausZahlungM));
+        Result result = new Result();
+        result.setWechselkurs(eurToChf);
+        result.setQuellensteuer(NumberUtil.formatNumPositive(quellensteuer));
+        result.seteSt(formatDeFin(eStAbzglQuellensteuer));
+        result.setBelastungDe(steuersatz);
+        result.setSoli(soli);
+        result.setVorauszahlungQ(formatDeFin(vorausZahlungQ));
+        result.setVorauszahlungM(formatDeFin(vorausZahlungM));
 
-        return calculationResult;
+        return result;
     }
 
     private static Double getZVETotal(CalculationParameters parameters, Double wechselkurs) {
