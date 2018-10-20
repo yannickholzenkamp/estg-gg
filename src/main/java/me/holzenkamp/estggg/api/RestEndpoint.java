@@ -18,7 +18,7 @@ import java.io.IOException;
 import static me.holzenkamp.estggg.api.internal.ApiValidator.validateMandatory;
 import static me.holzenkamp.estggg.api.internal.ApiValidator.validateNotNegative;
 
-@Path("/v1")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public class RestEndpoint {
 
