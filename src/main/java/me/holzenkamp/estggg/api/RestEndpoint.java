@@ -31,7 +31,6 @@ public class RestEndpoint {
 
     @GET
     @Path("/test")
-    @Interceptors(ApiInterceptor.class)
     public String test() {
         return "API OK - Version 1.0.0";
     }
