@@ -19,7 +19,7 @@ public class RestEndpoint {
 
     @GET
     @Path("/2018/{lohn}")
-    public Response calculate2018(@QueryParam("lohn") Double lohn) {
+    public Response calculate2018(@PathParam("lohn") Double lohn) {
         // TODO fix API according to swagger definition
         // TODO Validate input data
         LOGGER.info("2018 with lohn: " + lohn);
