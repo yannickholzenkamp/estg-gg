@@ -39,4 +39,13 @@ public class CalculationParameters {
     public void setWechselkurs(Double wechselkurs) {
         this.wechselkurs = wechselkurs;
     }
+
+    @Override
+    public String toString() {
+        return "CalculationParameters{" +
+                "lohn=" + lohn +
+                ", progressionsVorbehalt=" + progressionsVorbehalt +
+                ", wechselkurs=" + wechselkurs +
+                '}';
+    }
 }
