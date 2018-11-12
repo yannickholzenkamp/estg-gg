@@ -1,6 +1,5 @@
 package me.holzenkamp.estggg.api;
 
-import me.holzenkamp.estggg.api.internal.ApiInterceptor;
 import me.holzenkamp.estggg.business.calculation.Calculator;
 import me.holzenkamp.estggg.business.configuration.Configuration;
 import me.holzenkamp.estggg.business.configuration.Configuration2018;
@@ -15,12 +14,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
-import static me.holzenkamp.estggg.api.internal.ApiValidator.validateMandatory;
-import static me.holzenkamp.estggg.api.internal.ApiValidator.validateNotNegative;
+import static me.holzenkamp.estggg.util.ValidationUtil.validateMandatory;
+import static me.holzenkamp.estggg.util.ValidationUtil.validateNotNegative;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
-public class RestEndpoint {
+public class ApiEndpoint {
 
     private static final String PARAM_LOHN = "lohn";
     private static final String PARAM_PROGVORB = "progVorb";
@@ -68,7 +67,5 @@ public class RestEndpoint {
 
         return Calculator.calculate(parameters, configuration);
     }
-
-
 
 }
