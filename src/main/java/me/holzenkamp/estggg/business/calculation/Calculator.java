@@ -1,5 +1,6 @@
 package me.holzenkamp.estggg.business.calculation;
 
+import me.holzenkamp.estggg.business.Income;
 import me.holzenkamp.estggg.business.calculation.internal.EStG32a;
 import me.holzenkamp.estggg.business.calculation.internal.Quellensteuer;
 import me.holzenkamp.estggg.business.calculation.internal.Soli;
@@ -34,7 +35,7 @@ public class Calculator {
         Double eStAbzglQuellensteuer = eSt - (quellensteuer / eurToChf);
 
         // Soli berechnen
-        Double soli = Soli.calculate(eSt, configuration);
+        Double soli = new Soli(new Income(eSt), configuration).getSoliValue();
 
         // Gesamtzahlen berechnen
         Double summeZahlungenDe = eSt + soli;
