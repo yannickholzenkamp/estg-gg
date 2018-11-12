@@ -4,7 +4,6 @@ import me.holzenkamp.estggg.business.calculation.Calculator;
 import me.holzenkamp.estggg.business.configuration.Configuration;
 import me.holzenkamp.estggg.business.configuration.Configuration2018;
 import me.holzenkamp.estggg.business.dto.CalculationParameters;
-import me.holzenkamp.estggg.business.dto.Result;
 
 import javax.interceptor.Interceptors;
 import javax.ws.rs.GET;
@@ -31,13 +30,13 @@ public class ApiEndpoint {
     @GET
     @Path("/test")
     public String test() {
-        return "API OK - Version 1.0.0";
+        return "API OK";
     }
 
     @GET
     @Path("/simple")
     @Interceptors(ApiInterceptor.class)
-    public Result simple(@QueryParam(PARAM_LOHN) Double lohn) throws IOException {
+    public Object simple(@QueryParam(PARAM_LOHN) Double lohn) throws IOException {
 
         validateMandatory(lohn, PARAM_LOHN);
         validateNotNegative(lohn, PARAM_LOHN);
@@ -51,7 +50,7 @@ public class ApiEndpoint {
     @GET
     @Path("/complex")
     @Interceptors(ApiInterceptor.class)
-    public Result complex(@QueryParam(PARAM_LOHN) Double lohn,
+    public Object complex(@QueryParam(PARAM_LOHN) Double lohn,
                           @QueryParam(PARAM_PROGVORB) Double progVorb,
                           @QueryParam(PARAM_WECHSELKURS) Double wechselkurs) throws IOException {
 

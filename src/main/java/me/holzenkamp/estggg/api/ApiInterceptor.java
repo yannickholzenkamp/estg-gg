@@ -12,7 +12,7 @@ public class ApiInterceptor {
     private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
 
     @AroundInvoke
-    public Object intercept(InvocationContext invocationContext) {
+    public Response intercept(InvocationContext invocationContext) {
         LOGGER.info(String.format("API operation '%s' called with params: %s",
                 invocationContext.getMethod().getName(),
                 getParamsAsString(invocationContext.getParameters())
