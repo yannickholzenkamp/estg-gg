@@ -11,7 +11,7 @@ import me.holzenkamp.estggg.util.NumberUtil;
 
 import java.io.IOException;
 
-import static me.holzenkamp.estggg.util.NumberUtil.formatDeFin;
+import static me.holzenkamp.estggg.util.NumberUtil.roundFinanzamt;
 
 public class Calculator {
 
@@ -44,12 +44,12 @@ public class Calculator {
         // Berechnungsresultate verpacken
         Result result = new Result();
         result.setWechselkurs(eurToChf);
-        result.setQuellensteuer(NumberUtil.formatNumPositive(quellensteuer));
-        result.seteSt(formatDeFin(eStAbzglQuellensteuer));
+        result.setQuellensteuer(NumberUtil.roundFinanzamtPositive(quellensteuer));
+        result.seteSt(roundFinanzamt(eStAbzglQuellensteuer));
         result.setBelastungDe(steuersatz);
         result.setSoli(soli);
-        result.setVorauszahlungQ(formatDeFin(vorausZahlungQ));
-        result.setVorauszahlungM(formatDeFin(vorausZahlungM));
+        result.setVorauszahlungQ(roundFinanzamt(vorausZahlungQ));
+        result.setVorauszahlungM(roundFinanzamt(vorausZahlungM));
 
         return result;
     }
