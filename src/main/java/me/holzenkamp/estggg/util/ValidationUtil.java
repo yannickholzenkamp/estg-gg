@@ -1,6 +1,6 @@
-package me.holzenkamp.estggg.api.internal;
+package me.holzenkamp.estggg.util;
 
-public class ApiValidator {
+public class ValidationUtil {
 
     public static void validateMandatory(Double value, String paramName) {
         if (value == null) {
