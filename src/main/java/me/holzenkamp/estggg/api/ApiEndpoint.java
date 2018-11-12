@@ -80,7 +80,7 @@ public class ApiEndpoint {
         validateNotNegative(progVorb, PARAM_PROGVORB);
         validateNotNegative(abzgChf, PARAM_ABZGCHF);
 
-        return MonthCalculator.calculate(lohn, progVorb, abzgChf);
+        return MonthCalculator.calculate(lohn, progVorb, abzgChf, configuration);
     }
 
 }
