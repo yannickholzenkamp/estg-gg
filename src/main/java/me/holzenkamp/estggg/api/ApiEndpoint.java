@@ -1,6 +1,7 @@
 package me.holzenkamp.estggg.api;
 
 import me.holzenkamp.estggg.business.calculation.Calculator;
+import me.holzenkamp.estggg.business.calculation.MonthCalculator;
 import me.holzenkamp.estggg.business.configuration.Configuration;
 import me.holzenkamp.estggg.business.configuration.Configuration2018;
 import me.holzenkamp.estggg.business.dto.CalculationParameters;
@@ -72,14 +73,14 @@ public class ApiEndpoint {
     @Interceptors(ApiInterceptor.class)
     public Object month(@QueryParam(PARAM_LOHN) Double lohn,
                           @QueryParam(PARAM_PROGVORB) Double progVorb,
-                          @QueryParam(PARAM_ABZGCHF) Double abzgChf) {
+                          @QueryParam(PARAM_ABZGCHF) Double abzgChf) throws IOException {
 
         validateMandatory(lohn, PARAM_LOHN);
         validateNotNegative(lohn, PARAM_LOHN);
         validateNotNegative(progVorb, PARAM_PROGVORB);
         validateNotNegative(abzgChf, PARAM_ABZGCHF);
 
-        throw new UnsupportedOperationException("not implemented yet");
+        return MonthCalculator.calculate(lohn, progVorb, abzgChf);
     }
 
 }
