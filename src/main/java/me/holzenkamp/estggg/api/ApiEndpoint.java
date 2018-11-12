@@ -67,4 +67,19 @@ public class ApiEndpoint {
         return Calculator.calculate(parameters, configuration);
     }
 
+    @GET
+    @Path("/month")
+    @Interceptors(ApiInterceptor.class)
+    public Object month(@QueryParam(PARAM_LOHN) Double lohn,
+                          @QueryParam(PARAM_PROGVORB) Double progVorb,
+                          @QueryParam(PARAM_ABZGCHF) Double abzgChf) {
+
+        validateMandatory(lohn, PARAM_LOHN);
+        validateNotNegative(lohn, PARAM_LOHN);
+        validateNotNegative(progVorb, PARAM_PROGVORB);
+        validateNotNegative(abzgChf, PARAM_ABZGCHF);
+
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
 }
