@@ -18,6 +18,10 @@ public class Income {
         return value / wechselkurs;
     }
 
+    public Double getWechselkurs() {
+        return wechselkurs;
+    }
+
     public Income(Double value, Double wechselkurs) {
         this(value, wechselkurs, (double) 0);
     }

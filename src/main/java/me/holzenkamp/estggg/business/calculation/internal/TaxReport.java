@@ -42,4 +42,12 @@ public class TaxReport {
         return eStG32a.getIncomeTaxPercentage();
     }
 
+    public Double getTaxSum() {
+        return getEst() + getSoli();
+    }
+
+    public Double getPaymentSumDe() {
+        return getEst() - (getQuellensteuer().getQuellensteuer() / income.getWechselkurs());
+    }
+
 }
