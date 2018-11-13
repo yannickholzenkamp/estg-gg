@@ -6,49 +6,50 @@ public class EStG32a {
 
     private Configuration configuration;
 
-    private Double zVE;
+    private Double taxableProfit;
     private Double x;
     private Double y;
     private Double z;
-    private Double ESt;
-    private Double EStPercent;
+    private Double incomeTax;
+    private Double incomeTaxPercentage;
 
-    public EStG32a(Double zVE, Configuration configuration) {
+    public EStG32a(Double taxableProfit, Configuration configuration) {
         this.configuration = configuration;
-        this.zVE = zVE;
+        this.taxableProfit = taxableProfit;
         calcBaseValues();
+        calculate();
     }
 
     private void calcBaseValues() {
         // Die Größe "x" ist das auf einen vollen Euro-Betrag abgerundete zu versteuernde Einkommen.
-        x = Math.floor(zVE);
+        x = Math.floor(taxableProfit);
 
         // Die Größe "y" ist ein Zehntausendstel des den Grundfreibetrag übersteigenden Teils des auf einen vollen Euro-Betrag abgerundeten zu versteuernden Einkommens
         if (isYLevel()) {
-            y = getZehntausendstel(Math.floor(zVE) - configuration.getGrundfreibetrag_DE());
+            y = getZehntausendstel(x - configuration.getGrundfreibetrag_DE());
         }
 
         //Die Größe "z" ist ein Zehntausendstel des 13.996 Euro übersteigenden Teils des auf einen vollen Euro-Betrag abgerundeten zu versteuernden Einkommens
         if (isZLevel()) {
-            z = getZehntausendstel(Math.floor(zVE) - configuration.getZLevel_DE());
+            z = getZehntausendstel(x - configuration.getZLevel_DE());
         }
     }
 
     public void calculate() {
         // TODO do not hardcode these values
-        if (isAmountBetween(0.0, configuration.getGrundfreibetrag_DE(), zVE)) {
-            ESt = calcFirstStage();
-        } else if (isAmountBetween(9001.0, 13996.0, zVE)) {
-            ESt = calcSecondStage();
-        } else if (isAmountBetween(13397.0, 54949.0, zVE)) {
-            ESt = calcThirdStage();
-        } else if (isAmountBetween(54950.0, 260532.0, zVE)) {
-            ESt = calcFourthStage();
+        if (isAmountBetween(0.0, configuration.getGrundfreibetrag_DE(), taxableProfit)) {
+            incomeTax = calcFirstStage();
+        } else if (isAmountBetween(9001.0, 13996.0, taxableProfit)) {
+            incomeTax = calcSecondStage();
+        } else if (isAmountBetween(13397.0, 54949.0, taxableProfit)) {
+            incomeTax = calcThirdStage();
+        } else if (isAmountBetween(54950.0, 260532.0, taxableProfit)) {
+            incomeTax = calcFourthStage();
         } else {
-            ESt = calcFifthStage();
+            incomeTax = calcFifthStage();
         }
-        ESt = Math.floor(ESt);
-        EStPercent = (ESt / zVE);
+        incomeTax = Math.floor(incomeTax);
+        incomeTaxPercentage = (incomeTax / taxableProfit);
     }
 
     private Double calcFirstStage() {
@@ -91,19 +92,19 @@ public class EStG32a {
     }
 
     private boolean isYLevel() {
-        return zVE > configuration.getGrundfreibetrag_DE();
+        return taxableProfit > configuration.getGrundfreibetrag_DE();
     }
 
     private boolean isZLevel() {
-        return zVE > configuration.getZLevel_DE();
+        return taxableProfit > configuration.getZLevel_DE();
     }
 
-    public Double getESt() {
-        return ESt;
+    public Double getIncomeTax() {
+        return incomeTax;
     }
 
-    public Double getEStPercent() {
-        return EStPercent;
+    public Double getIncomeTaxPercentage() {
+        return incomeTaxPercentage;
     }
 
 }

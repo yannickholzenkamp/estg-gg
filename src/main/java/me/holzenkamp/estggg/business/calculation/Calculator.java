@@ -4,6 +4,7 @@ import me.holzenkamp.estggg.business.Income;
 import me.holzenkamp.estggg.business.calculation.internal.EStG32a;
 import me.holzenkamp.estggg.business.calculation.internal.Quellensteuer;
 import me.holzenkamp.estggg.business.calculation.internal.Soli;
+import me.holzenkamp.estggg.business.calculation.internal.TaxReport;
 import me.holzenkamp.estggg.business.dto.CalculationParameters;
 import me.holzenkamp.estggg.business.dto.Result;
 import me.holzenkamp.estggg.business.configuration.Configuration;
@@ -20,22 +21,17 @@ public class Calculator {
 
         // Wechselkurs 1 EUR = x CHF laden (aktueller Kurs)
         Double eurToChf = parameters.getWechselkurs() == null ? CurrencyService.eurToChf() : parameters.getWechselkurs();
-
-        // Gesamtes zu versteuerndes Einkommen ermitteln (EUR)
-        Double zVETotal = getZVETotal(parameters, eurToChf);
+        TaxReport taxReport = new TaxReport(new Income(parameters.getLohn(), eurToChf, parameters.getProgressionsVorbehalt()), configuration);
 
         // Schweizer Steuerdaten berechnen (CHF)
-        Double quellensteuer = Quellensteuer.calculate(parameters.getLohn(), configuration);
+        Double quellensteuer = taxReport.getQuellensteuer().getQuellensteuer();
 
         // Dautesche Steuerdaten berechnen
-        EStG32a eStG32A = new EStG32a(zVETotal, configuration);
-        eStG32A.calculate();
-        Double steuersatz = eStG32A.getEStPercent();
-        Double eSt = getEst(parameters.getLohn(), eStG32A.getESt(), parameters.getProgressionsVorbehalt(), eStG32A.getEStPercent());
+        Double eSt = taxReport.getEst();
         Double eStAbzglQuellensteuer = eSt - (quellensteuer / eurToChf);
 
         // Soli berechnen
-        Double soli = new Soli(new Income(eSt), configuration).getSoliValue();
+        Double soli = taxReport.getSoli();
 
         // Gesamtzahlen berechnen
         Double summeZahlungenDe = eSt + soli;
@@ -47,7 +43,7 @@ public class Calculator {
         result.setWechselkurs(eurToChf);
         result.setQuellensteuer(NumberUtil.formatNumPositive(quellensteuer));
         result.seteSt(formatDeFin(eStAbzglQuellensteuer));
-        result.setBelastungDe(steuersatz);
+        result.setBelastungDe(taxReport.getTaxRate());
         result.setSoli(soli);
         result.setVorauszahlungQ(formatDeFin(vorausZahlungQ));
         result.setVorauszahlungM(formatDeFin(vorausZahlungM));
@@ -55,23 +51,5 @@ public class Calculator {
         return result;
     }
 
-    private static Double getZVETotal(CalculationParameters parameters, Double wechselkurs) {
-        if (parameters.getProgressionsVorbehalt() > 0) {
-            // Mit Progressionsvorbehalt rechnen
-            return parameters.getLohn() / wechselkurs + parameters.getProgressionsVorbehalt();
-        } else if (parameters.getProgressionsVorbehalt() == 0) {
-            // Ohne Progressionsvorbehalt rechnen
-            return parameters.getLohn() / wechselkurs;
-        }
-        // Progressionsvorbehalt < 0. Das ist nicht erlaubt.
-        throw new RuntimeException("Progressionsvorbehalt sollte nicht negativ sein.");
-    }
-
-    private static Double getEst(Double zVe, Double eSt, Double progVorb, Double steuerSatz) {
-        if (progVorb > 0) {
-            return (zVe - progVorb) * steuerSatz;
-        }
-        return eSt;
-    }
 
 }
