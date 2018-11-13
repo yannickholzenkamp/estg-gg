@@ -26,7 +26,7 @@ public class EStG32aTest {
     private double calc(double income) {
         EStG32a eStG32a = new EStG32a(income, new Configuration2018());
         eStG32a.calculate();
-        return eStG32a.getESt();
+        return eStG32a.getIncomeTax();
     }
 
 }
