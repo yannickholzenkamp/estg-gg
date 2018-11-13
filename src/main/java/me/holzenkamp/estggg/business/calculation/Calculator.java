@@ -1,9 +1,7 @@
 package me.holzenkamp.estggg.business.calculation;
 
 import me.holzenkamp.estggg.business.Income;
-import me.holzenkamp.estggg.business.calculation.internal.EStG32a;
-import me.holzenkamp.estggg.business.calculation.internal.Quellensteuer;
-import me.holzenkamp.estggg.business.calculation.internal.Soli;
+import me.holzenkamp.estggg.business.calculation.internal.TaxReport;
 import me.holzenkamp.estggg.business.calculation.internal.TaxReport;
 import me.holzenkamp.estggg.business.dto.CalculationParameters;
 import me.holzenkamp.estggg.business.dto.Result;
@@ -35,8 +33,8 @@ public class Calculator {
 
         // Gesamtzahlen berechnen
         Double summeZahlungenDe = eSt + soli;
-        Double vorausZahlungQ = summeZahlungenDe/4;
-        Double vorausZahlungM = summeZahlungenDe/13;
+        Double vorausZahlungQ = summeZahlungenDe / 4;
+        Double vorausZahlungM = summeZahlungenDe / 13;
 
         // Berechnungsresultate verpacken
         Result result = new Result();
